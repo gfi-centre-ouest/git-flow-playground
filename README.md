@@ -1,4 +1,4 @@
-Exemple git flow (v1.0.1)
+Exemple git flow (v1.1.0)
 ----------------
 
 Un repository git mettant en oeuvre git-flow.
