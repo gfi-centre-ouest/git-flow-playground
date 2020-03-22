@@ -30,3 +30,5 @@ Git flow est structuré via différent type de branche.
 être crées à partir de develop, et ne doivent pas être crées pour corriger un bug. Ces branches doivent être rebasées
 régulièrement sur **develop** en cours de développement afin de bénéficier de la dernière version de l'application.
 
+- **hotfix/***: Les correction de bug sont dévelopées dans des branches nommées **hotfix**. Ces branches doivent être 
+crées à partir de **master**, et doivent se contenter de fixer le bug.
