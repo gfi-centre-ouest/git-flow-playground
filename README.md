@@ -5,3 +5,11 @@ Un repository git mettant en oeuvre git-flow.
 
 git-flow est un ensemble d'extensions git permettant des opérations de haut niveau sur un dépôt pour appliquer le 
 modèle de branches de Vincent Driessen.
+
+
+Conventional Commits
+--------------------
+Avant de parler de git-flow, commençons par parler de la structure de nos messages de commit.
+
+On utilisera la convention [Conventional Commits 1.0.0](https://www.conventionalcommits.org/fr/v1.0.0/) pour rédiger 
+chaque message de commit.
