@@ -16,3 +16,8 @@ chaque message de commit.
 
 Pour respecter cette convention facilement, vous pouvez utiliser le plugin Jetbrains [Git Commit Template](https://plugins.jetbrains.com/plugin/9861-git-commit-template), 
 ou bien [Commitizen](https://github.com/commitizen/cz-cli) si vous êtes plutôt habitué à la ligne de commande (Nécessite NodeJS).
+
+Les types de branches de git-flow
+---------------------------------
+
+Git flow est structuré via différent type de branche.
