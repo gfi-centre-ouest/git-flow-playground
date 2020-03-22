@@ -23,3 +23,5 @@ Les types de branches de git-flow
 Git flow est structuré via différent type de branche.
 
 - **develop**: Il s'agit de la version en cours de développement. Notre intégration doit refléter cette branche en permance.
+
+- **master**: Il s'agit de la dernière version livrée au client. Cette branche doit refleter la recette du client.
