@@ -38,6 +38,6 @@ packaging et de corriger les éventuels problème liés au build. Cette branche 
 accueillir les correctifs associés à la version livrée. Elle doit être mergée dans **master**, puis la version est 
 taguée sur **master**, puis **master** est mergée dans **develop**.
 
-- **support/***: Suite à la livraison d'une nouvelle version, une branch support peut être crée à partir du tag de la
+- **support/***: Suite à la livraison d'une nouvelle version, une branche support peut être crée à partir du tag de la
 version afin de garantir un suivi sur une ancienne version. Cela peut être utile si plusieurs versions sont disponibles
 sur différents environnements.
