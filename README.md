@@ -32,3 +32,7 @@ régulièrement sur **develop** en cours de développement afin de bénéficier 
 
 - **hotfix/***: Les correction de bug sont dévelopées dans des branches nommées **hotfix**. Ces branches doivent être 
 crées à partir de **master**, et doivent se contenter de fixer le bug.
+
+- **release/***: Lors de la livraison d'une nouvelle version, une branche release peut être crée afin de réaliser le
+packaging et de corriger les éventuels problème liés au build. Cette branche est temporaire et n'a pas vocation à 
+accueillir les correctifs associés à la version livrée.
