@@ -13,3 +13,5 @@ Avant de parler de git-flow, commençons par parler de la structure de nos messa
 
 On utilisera la convention [Conventional Commits 1.0.0](https://www.conventionalcommits.org/fr/v1.0.0/) pour rédiger 
 chaque message de commit.
+
+Pour respecter cette convention facilement, vous pouvez utiliser le plugin Jetbrains [Git Commit Template](https://plugins.jetbrains.com/plugin/9861-git-commit-template).
