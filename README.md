@@ -25,3 +25,6 @@ Git flow est structuré via différent type de branche.
 - **develop**: Il s'agit de la version en cours de développement. Notre intégration doit refléter cette branche en permance.
 
 - **master**: Il s'agit de la dernière version livrée au client. Cette branche doit refleter la recette du client.
+
+- **feature/***: Les fonctionnalités sont dévelopées dans des branches séparées nommées feature. Ces branches doivent 
+être crées à partir de develop, et ne doivent pas être crées pour corriger un bug urgent.
