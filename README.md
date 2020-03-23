@@ -41,3 +41,10 @@ taguée sur **master**, puis **master** est mergée dans **develop**.
 - **support/***: Suite à la livraison d'une nouvelle version, une branche support peut être crée à partir du tag de la
 version afin de garantir un suivi sur une ancienne version. Cela peut être utile si plusieurs versions sont disponibles
 sur différents environnements.
+
+Quelques liens essentiels
+-------------------------
+
+- [git-flow cheatsheet](https://danielkummer.github.io/git-flow-cheatsheet/)
+- [Gitflow - Animated](https://veerasundar.com/blog/2018/03/gitflow-animated/)
+- [A successful Git branching model](https://nvie.com/posts/a-successful-git-branching-model/)
