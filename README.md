@@ -1,7 +1,7 @@
-Exemple git flow (v1.1.0)
-----------------
+Git flow playground
+-------------------
 
-Un repository git mettant en oeuvre git-flow.
+Un repository git mettant en oeuvre git-flow, et embarquant un [playground pour apprendre git-flow par la manipulation.](https://gfi-centre-ouest.github.io/git-flow-playground/)
 
 git-flow est un ensemble d'extensions git permettant des opérations de haut niveau sur un dépôt pour appliquer le 
 modèle de branches de Vincent Driessen.
