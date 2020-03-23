@@ -1,3 +1,5 @@
+import {Orientation} from "@gitgraph/core";
+import {Orientation} from "@gitgraph/core";
 <template>
   <v-container>
     <v-row>
@@ -11,39 +13,30 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 
-import { createGitgraph } from '@gitgraph/js'
+import { createGitgraph, Orientation } from '@gitgraph/js'
+import { GitgraphUserApi } from '@gitgraph/core'
 
 @Component
 export default class GitgraphContainer extends Vue {
   name = 'HelloWorld'
 
+  gitgraph!: GitgraphUserApi<SVGElement>
+
   mounted () {
     const graphContainer = this.$el.querySelector('.git-graph-container') as HTMLElement
 
     // Instantiate the graph.
-    const gitgraph = createGitgraph(graphContainer, { author: 'Developer <dev@gfi.world>' })
+    this.gitgraph = createGitgraph(graphContainer, {
+      author: 'Some Developer <some.developer@gfi.world>',
+      orientation: Orientation.VerticalReverse
+    })
 
-    // Simulate git commands with Gitgraph API.
-    const master = gitgraph.branch('master')
-    master.commit('Initial commit')
-
-    const develop = gitgraph.branch('develop')
-    develop.commit('Add TypeScript')
-
-    const aFeature = gitgraph.branch('a-feature')
-    aFeature
-      .commit('Make it work')
-      .commit({ subject: 'Make it right', hash: 'test' })
-      .commit('Make it fast')
-
-    develop.merge(aFeature)
-    develop.commit('Prepare v1')
-
-    master.merge(develop).tag('v1.0.0')
-
-    develop.checkout()
-
-    gitgraph.commit('test')
+    this.$emit('gitgraph', this.gitgraph)
   }
 }
 </script>
+<style>
+.git-graph-container {
+  padding-bottom: 24px;
+}
+</style>
