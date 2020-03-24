@@ -5,41 +5,16 @@
       color="primary"
       dark
     >
-      <v-menu v-model="checkoutMenuVisibleMd" :close-on-content-click="false">
-        <template v-slot:activator="{ on: menuMd }">
-          <v-btn
-            color="accent"
-            class="hidden-sm-and-down ml-4"
-            style="min-width: 200px"
-            v-on="{ ...menuMd }"
-          >
-            <v-icon class="mr-2">mdi-source-branch</v-icon>
-            {{ currentBranch ? currentBranch.name : 'Checkout' }}
-          </v-btn>
-        </template>
-        <v-list>
-          <v-list-item
-            v-for="(branch, index) in otherBranchNames"
-            :key="index"
-            @click="checkout(branch)">
-            <v-list-item-title><span :class="{'current': currentBranch ? currentBranch.name === branch : false}">{{ branch }}</span>
-            </v-list-item-title>
-          </v-list-item>
-          <template
-            v-for="group in menuGroups">
-
-            <v-subheader :key="group.title">{{group.title}}</v-subheader>
-
-            <v-list-item
-              v-for="branch in group.branchNames"
-              :key="branch"
-              @click="checkout(branch)">
-              <v-list-item-title><span :class="{'current': currentBranch ? currentBranch.name === branch : false}">{{ branch }}</span>
-              </v-list-item-title>
-            </v-list-item>
-          </template>
-        </v-list>
-      </v-menu>
+      <v-flex style="max-width: 250px" class="hidden-sm-and-down">
+        <v-select full-width
+                  prepend-inner-icon="mdi-source-branch"
+                  outlined
+                  hide-details
+                  :items="branchItems"
+                  :value="currentBranch ? currentBranch.name : null"
+                  @input="checkout">
+        </v-select>
+      </v-flex>
       <v-btn text @click="commit()" class="hidden-sm-and-down ml-4">
         <v-icon class="mr-1">mdi-source-commit</v-icon>
         <span>Commit</span>
@@ -88,43 +63,18 @@
     </v-app-bar>
 
     <v-content>
-      <v-toolbar color="accent" flat class="hidden-md-and-up ">
-        <v-menu v-model="checkoutMenuVisibleSm" :close-on-content-click="false">
-          <template v-slot:activator="{ on: menuSm }">
-            <v-btn
-              text
-              dark
-              class="d-flex ml-4"
-              v-on="{ ...menuSm }"
-            >
-              <v-icon class="mr-2">mdi-source-branch</v-icon>
-              {{ currentBranch ? currentBranch.name : 'Checkout' }}
-            </v-btn>
-          </template>
-          <v-list>
-            <v-list-item
-              v-for="(branch, index) in otherBranchNames"
-              :key="index"
-              @click="checkout(branch)">
-              <v-list-item-title><span :class="{'current': currentBranch ? currentBranch.name === branch : false}">{{ branch }}</span>
-              </v-list-item-title>
-            </v-list-item>
-            <template
-              v-for="group in menuGroups">
-
-              <v-subheader :key="group.title">{{group.title}}</v-subheader>
-
-              <v-list-item
-                v-for="branch in group.branchNames"
-                :key="branch"
-                @click="checkout(branch)">
-                <v-list-item-title><span :class="{'current': currentBranch ? currentBranch.name === branch : false}">{{ branch }}</span>
-                </v-list-item-title>
-              </v-list-item>
-            </template>
-          </v-list>
-        </v-menu>
-      </v-toolbar>
+      <v-select class="hidden-md-and-up mx-4 my-2"
+                full-width
+                prepend-inner-icon="mdi-source-branch"
+                outlined
+                hide-details
+                solo
+                flat
+                dense
+                :items="branchItems"
+                :value="currentBranch ? currentBranch.name : null"
+                @input="checkout">
+      </v-select>
       <v-container fluid>
         <v-row>
           <v-col cols="12">
@@ -206,6 +156,37 @@ export default class App extends Vue {
       return this.gitgraph.branch(branch)
     }
     return branch.branch
+  }
+
+  get branchItems (): { text?: string; value?: string; header?: string }[] {
+    const items: { text?: string; value?: string; header?: string }[] = []
+
+    for (const otherBranch of this.otherBranchNames) {
+      items.push({ text: otherBranch, value: otherBranch })
+    }
+
+    if (this.featureBranchNames.length > 0) {
+      items.push({ header: 'Feature' })
+    }
+    for (const branch of this.featureBranchNames) {
+      items.push({ text: branch, value: branch })
+    }
+
+    if (this.hotfixBranchNames.length > 0) {
+      items.push({ header: 'Hotfix' })
+    }
+    for (const branch of this.hotfixBranchNames) {
+      items.push({ text: branch, value: branch })
+    }
+
+    if (this.releaseBranchNames.length > 0) {
+      items.push({ header: 'Release' })
+    }
+    for (const branch of this.releaseBranchNames) {
+      items.push({ text: branch, value: branch })
+    }
+
+    return items
   }
 
   get branchNames (): string[] {
