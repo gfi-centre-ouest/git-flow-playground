@@ -61,6 +61,10 @@
         <v-icon class="mr-1">mdi-package-variant</v-icon>
         <span>Release</span>
       </v-btn>
+      <v-btn text href="https://github.com/gfi-centre-ouest/git-flow-playground" target="_blank" class="ml-8">
+        <v-icon class="mr-1">mdi-github</v-icon>
+        Sources
+      </v-btn>
     </v-app-bar>
 
     <v-content>
