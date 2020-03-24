@@ -218,8 +218,13 @@ export default class App extends Vue {
   }
 
   startFeature (baseBranch: GitflowBranch<SVGElement> | BranchUserApi<SVGElement> | string = 'develop') {
+    let versionBranchName: string | null = null
+    while (!versionBranchName || this.branchNames.includes(versionBranchName)) {
+      versionBranchName = `feature/${loremIpsum.generateWords(1)}`
+    }
+
     const branchOptions: GitgraphBranchOptions<SVGElement> = {
-      name: `feature/${loremIpsum.generateWords(1)}`,
+      name: versionBranchName,
       from: this.getBranchUserApi(baseBranch)
     }
 
@@ -234,8 +239,19 @@ export default class App extends Vue {
   }
 
   startHotfix (baseBranch: GitflowBranch<SVGElement> | BranchUserApi<SVGElement> | string = 'master') {
+    function getRandomInt (min: number, max: number) {
+      min = Math.ceil(min)
+      max = Math.floor(max)
+      return Math.floor(Math.random() * (max - min + 1)) + min
+    }
+
+    let versionBranchName: string | null = null
+    while (!versionBranchName || this.branchNames.includes(versionBranchName)) {
+      versionBranchName = `hotfix/issue-${getRandomInt(10000, 99999)}`
+    }
+
     const branchOptions: GitgraphBranchOptions<SVGElement> = {
-      name: `hotfix/${loremIpsum.generateWords(1)}`,
+      name: versionBranchName,
       from: this.getBranchUserApi(baseBranch)
     }
 
@@ -254,8 +270,16 @@ export default class App extends Vue {
   }
 
   startRelease (baseBranch: GitflowBranch<SVGElement> | BranchUserApi<SVGElement> | string = 'develop') {
+    const versionCopy = new SemVer(this.version.format())
+
+    let versionBranchName: string | null = null
+    while (!versionBranchName || this.branchNames.includes(versionBranchName)) {
+      versionCopy.inc('minor')
+      versionBranchName = `release/v${versionCopy.format()}`
+    }
+
     const branchOptions: GitgraphBranchOptions<SVGElement> = {
-      name: `release/${loremIpsum.generateWords(1)}`,
+      name: versionBranchName,
       from: this.getBranchUserApi(baseBranch)
     }
 
