@@ -88,13 +88,13 @@
     </v-app-bar>
 
     <v-content>
-      <v-toolbar color="accent" flat>
+      <v-toolbar color="accent" flat class="hidden-md-and-up ">
         <v-menu v-model="checkoutMenuVisibleSm" :close-on-content-click="false">
           <template v-slot:activator="{ on: menuSm }">
             <v-btn
               text
               dark
-              class="d-flex hidden-md-and-up ml-4"
+              class="d-flex ml-4"
               v-on="{ ...menuSm }"
             >
               <v-icon class="mr-2">mdi-source-branch</v-icon>
