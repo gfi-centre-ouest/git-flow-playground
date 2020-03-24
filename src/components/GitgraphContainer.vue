@@ -1,12 +1,8 @@
 import {Orientation} from "@gitgraph/core";
 import {Orientation} from "@gitgraph/core";
 <template>
-  <v-container>
-    <v-row>
-      <div class="git-graph-container">
-      </div>
-    </v-row>
-  </v-container>
+  <div class="git-graph-container">
+  </div>
 </template>
 
 <script lang="ts">
@@ -23,10 +19,11 @@ export default class GitgraphContainer extends Vue {
   gitgraph!: GitgraphUserApi<SVGElement>
 
   mounted () {
-    const graphContainer = this.$el.querySelector('.git-graph-container') as HTMLElement
+    const graphContainer = this.$el as HTMLElement
 
     // Instantiate the graph.
     this.gitgraph = createGitgraph(graphContainer, {
+      branchLabelOnEveryCommit: true,
       author: 'Some Developer <some.developer@gfi.world>',
       orientation: Orientation.VerticalReverse
     })

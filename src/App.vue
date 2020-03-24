@@ -5,13 +5,13 @@
       color="primary"
       dark
     >
-      <v-menu v-model="checkoutMenuVisible" :close-on-content-click="false">
-        <template v-slot:activator="{ on: menu }">
+      <v-menu v-model="checkoutMenuVisibleMd" :close-on-content-click="false">
+        <template v-slot:activator="{ on: menuMd }">
           <v-btn
             color="accent"
-            class="ml-4"
+            class="hidden-sm-and-down ml-4"
             style="min-width: 200px"
-            v-on="{ ...menu }"
+            v-on="{ ...menuMd }"
           >
             <v-icon class="mr-2">mdi-source-branch</v-icon>
             {{ currentBranch ? currentBranch.name : 'Checkout' }}
@@ -40,31 +40,102 @@
           </template>
         </v-list>
       </v-menu>
-      <v-btn text @click="commit()" class="ml-4">
+      <v-btn text @click="commit()" class="hidden-sm-and-down ml-4">
         <v-icon class="mr-1">mdi-source-commit</v-icon>
         <span>Commit</span>
       </v-btn>
+      <v-btn icon @click="commit()" class="hidden-md-and-up">
+        <v-icon>mdi-source-commit</v-icon>
+      </v-btn>
       <v-spacer></v-spacer>
-      <v-btn @click="finish()" v-if="canFinish" color="accent" class="mr-4">
+      <v-btn @click="finish()" v-if="canFinish" color="accent" class="hidden-sm-and-down mr-4">
         <v-icon class="mr-1">mdi-check-circle</v-icon>
         <span>Finish</span>
       </v-btn>
-      <v-btn text @click="startFeature()">
+      <v-btn text @click="startFeature()" class="hidden-sm-and-down">
         <v-icon class="mr-1">mdi-flask</v-icon>
         <span>Feature</span>
       </v-btn>
-      <v-btn text @click="startHotfix()">
+      <v-btn icon @click="startFeature()" class="hidden-md-and-up">
+        <v-icon>mdi-flask</v-icon>
+      </v-btn>
+      <v-btn text @click="startHotfix()" class="hidden-sm-and-down">
         <v-icon class="mr-1">mdi-bug</v-icon>
         <span>Hotfix</span>
       </v-btn>
-      <v-btn text @click="startRelease()">
+      <v-btn icon @click="startHotfix()" class="hidden-md-and-up">
+        <v-icon>mdi-bug</v-icon>
+      </v-btn>
+      <v-btn text @click="startRelease()" class="hidden-sm-and-down">
         <v-icon class="mr-1">mdi-package-variant</v-icon>
         <span>Release</span>
+      </v-btn>
+      <v-btn icon @click="startRelease()" class="hidden-md-and-up">
+        <v-icon>mdi-package-variant</v-icon>
+      </v-btn>
+      <v-spacer class="hidden-md-and-up"></v-spacer>
+      <v-btn text href="https://github.com/gfi-centre-ouest/git-flow-playground"
+             target="_blank"
+             class="hidden-sm-and-down ml-8">
+        <v-icon class="mr-1">mdi-github</v-icon>
+        <span>Sources</span>
+      </v-btn>
+      <v-btn icon href="https://github.com/gfi-centre-ouest/git-flow-playground"
+             target="_blank"
+             class="hidden-md-and-up">
+        <v-icon>mdi-github</v-icon>
       </v-btn>
     </v-app-bar>
 
     <v-content>
-      <GitgraphContainer ref="graphContainer"></GitgraphContainer>
+      <v-toolbar color="accent" flat>
+        <v-menu v-model="checkoutMenuVisibleSm" :close-on-content-click="false">
+          <template v-slot:activator="{ on: menuSm }">
+            <v-btn
+              text
+              dark
+              class="d-flex hidden-md-and-up ml-4"
+              v-on="{ ...menuSm }"
+            >
+              <v-icon class="mr-2">mdi-source-branch</v-icon>
+              {{ currentBranch ? currentBranch.name : 'Checkout' }}
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item
+              v-for="(branch, index) in otherBranchNames"
+              :key="index"
+              @click="checkout(branch)">
+              <v-list-item-title><span :class="{'current': currentBranch ? currentBranch.name === branch : false}">{{ branch }}</span>
+              </v-list-item-title>
+            </v-list-item>
+            <template
+              v-for="group in menuGroups">
+
+              <v-subheader :key="group.title">{{group.title}}</v-subheader>
+
+              <v-list-item
+                v-for="branch in group.branchNames"
+                :key="branch"
+                @click="checkout(branch)">
+                <v-list-item-title><span :class="{'current': currentBranch ? currentBranch.name === branch : false}">{{ branch }}</span>
+                </v-list-item-title>
+              </v-list-item>
+            </template>
+          </v-list>
+        </v-menu>
+      </v-toolbar>
+      <v-container fluid>
+        <v-row>
+          <v-col cols="12">
+            <v-btn fab absolute style="bottom: 16px; right: 0px" color="primary" @click="finish()" v-if="canFinish"
+                   class="hidden-md-and-up mr-4">
+              <v-icon>mdi-check-circle</v-icon>
+            </v-btn>
+            <GitgraphContainer class="scrollable" ref="graphContainer"></GitgraphContainer>
+          </v-col>
+        </v-row>
+      </v-container>
     </v-content>
   </v-app>
 </template>
@@ -86,7 +157,8 @@ export default class App extends Vue {
   @Ref()
   graphContainer!: GitgraphContainer
 
-  checkoutMenuVisible = false
+  checkoutMenuVisibleMd = false
+  checkoutMenuVisibleSm = false
 
   currentBranch: GitflowBranch<SVGElement> | BranchUserApi<SVGElement> | null = null
   branches: (GitflowBranch<SVGElement> | BranchUserApi<SVGElement>)[] = []
@@ -235,7 +307,8 @@ export default class App extends Vue {
   }
 
   checkout (branch: GitflowBranch<SVGElement> | BranchUserApi<SVGElement> | string): GitflowBranch<SVGElement> | BranchUserApi<SVGElement> {
-    this.checkoutMenuVisible = false
+    this.checkoutMenuVisibleMd = false
+    this.checkoutMenuVisibleSm = false
     const branchObject = this.gitgraph.branch(this.getBranchName(branch))
     const existingBranch = this.branchByName[branchObject.name]
     if (existingBranch) {
@@ -294,5 +367,10 @@ export default class App extends Vue {
 <style>
 .current {
   font-weight: bold;
+}
+
+.scrollable {
+  max-width: 100%;
+  overflow: auto;
 }
 </style>
